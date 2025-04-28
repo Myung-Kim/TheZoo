@@ -11,7 +11,7 @@ import SwiftUI
 struct TheZooApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LobbyView()
         }
     }
 }
