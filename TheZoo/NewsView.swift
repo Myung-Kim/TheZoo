@@ -21,21 +21,14 @@ struct NewsView: View {
             
             if let news = news {
                 Text(news.message)
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                Text("Thoughts: \(news.reflection)")
                     .font(.title2)
                     .multilineTextAlignment(.center)
                     .padding()
-                Text(news.pastEffect)
-                    .font(.title2)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                Text(news.presentEffect)
-                    .font(.title2)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                Text(news.futureEffect)
-                    .font(.title2)
-                    .multilineTextAlignment(.center)
-                    .padding()
+
             } else {
                 Text("No news available.")
                     .font(.title2)
@@ -65,8 +58,6 @@ struct NewsView: View {
 #Preview {
     NewsView(onDismiss: {}, newsList: .constant([            News(
         message: "Example Message",
-        pastEffect: "Effect in the past",
-        presentEffect: "Effect in the present",
-        futureEffect: "Effect in the future"
+        reflection: "Effect in the past"
     )]))
 }

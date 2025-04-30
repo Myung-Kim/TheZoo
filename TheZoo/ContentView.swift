@@ -99,19 +99,14 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Text(currentPhase.description)
+                Text("Time: \(currentPhase.description)")
                     .font(.system(size: 30))
-                    .padding(15)
-                    .background(.orange)
-                    .cornerRadius(10)
                 
                 Spacer()
                 
-                Text("\(playerNames[currentPlayer])")
+                Text("Current Player: \(playerNames[currentPlayer])")
                     .font(.system(size: 30))
-                    .padding(15)
-                    .background(.pink)
-                    .cornerRadius(10)
+
                 
                 Spacer()
                 
@@ -136,6 +131,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                .frame(maxHeight: 100)
                 
                 
                 Spacer()
@@ -162,28 +158,38 @@ struct ContentView: View {
                 } label: {
                     Text("Next")
                         .font(.title)
+                        .padding(15)
+                        .background(.pink)
+                        .foregroundStyle(.white)
+                        .cornerRadius(10)
                 }
                 .sheet(isPresented: $showInfoSheet, onDismiss: { showInfoSheet = false
                     checkPhase()}) {
                         VStack(spacing: 20) {
                             if currentPhase == .past || currentPhase == .present {
                                 Text("Profits!")
-                                    .font(.headline)
+                                    .font(.largeTitle)
+                                    .bold()
                                 
                                 ForEach(Array(playerAnimals.keys), id: \.self) { name in
                                     if let animals = playerAnimals[name] {
                                         Text("Player: \(name)")
+                                            .font(.title)
                                         Text("Profit: \(calculateProfit(animals: animals))")
+                                            .font(.title)
                                     }
                                 }
                             } else {
                                 Text("Costs!")
-                                    .font(.headline)
+                                    .font(.largeTitle)
+                                    .bold()
                                 
                                 ForEach(Array(playerAnimals.keys), id: \.self) { name in
                                     if let animals = playerAnimals[name] {
                                         Text("Player: \(name)")
+                                            .font(.title)
                                         Text("Cost: \(calculateCost(animals: animals))")
+                                            .font(.title)
                                     }
                                 }
                             }
@@ -224,7 +230,6 @@ struct ContentView: View {
                     .padding()
                 }
                 
-                Spacer()
             }
             
             
@@ -311,48 +316,55 @@ struct ContentView: View {
     }
     
     func seedData() {
-        freeAnimals[Continent.africa]!.append(Animal(name: "Lion", image: "lion", space: "green_3x3", diet: Diet.carnivore, region: .africa, profit: 4, captureRange: 3, price: 4, cost: 4))
+        freeAnimals[Continent.africa]!.append(Animal(name: "Lion", image: "lion", space: "lion_space", diet: Diet.carnivore, region: .africa, profit: 4, captureRange: 3, price: 4, cost: 4))
+
+        freeAnimals[Continent.africa]!.append(Animal(name: "Hippopotamus", image: "hippo", space: "hippo_space", diet: Diet.omnivore, region: .africa, profit: 2, captureRange: 4, price: 4, cost: 1))
         
-        freeAnimals[Continent.africa]!.append(Animal(name: "Hippo", image: "fox", space: "green_2x2", diet: Diet.omnivore, region: .africa, profit: 2, captureRange: 4, price: 4, cost: 1))
+        freeAnimals[Continent.africa]!.append(Animal(name: "Meerkat", image: "meerkat", space: "meerkat_space", diet: Diet.omnivore, region: .africa, profit: 3, captureRange: 5, price: 4, cost: 2))
         
-        freeAnimals[Continent.africa]!.append(Animal(name: "Meerkat", image: "fox", space: "green_2x2", diet: Diet.omnivore, region: .africa, profit: 3, captureRange: 5, price: 4, cost: 2))
         
-        freeAnimals[Continent.europe]!.append(Animal(name: "Red Fox", image: "fox", space: "green_3x3", diet: Diet.omnivore, region: .europe, profit: 2, captureRange: 5, price: 3, cost: 2))
+        freeAnimals[Continent.europe]!.append(Animal(name: "Red Fox", image: "red_fox", space: "red_fox_space", diet: Diet.omnivore, region: .europe, profit: 2, captureRange: 5, price: 3, cost: 2))
         
-        freeAnimals[Continent.europe]!.append(Animal(name: "Red Squirrel", image: "lion", space: "green_2x2", diet: Diet.herbivore, region: .europe, profit: 1, captureRange: 5, price: 2, cost: 1))
+        freeAnimals[Continent.europe]!.append(Animal(name: "Red Squirrel", image: "red_squirrel", space: "red_squirrel_space", diet: Diet.herbivore, region: .europe, profit: 1, captureRange: 5, price: 2, cost: 1))
         
-        freeAnimals[Continent.europe]!.append(Animal(name: "Brown Bear", image: "lion", space: "green_2x2", diet: Diet.omnivore, region: .europe, profit: 1, captureRange: 5, price: 1, cost: 1))
+        freeAnimals[Continent.europe]!.append(Animal(name: "Brown Bear", image: "brown_bear", space: "brown_bear_space", diet: Diet.omnivore, region: .europe, profit: 1, captureRange: 5, price: 1, cost: 1))
         
-        freeAnimals[Continent.asia]!.append(Animal(name: "Grand Panda", image: "fox", space: "green_2x2", diet: Diet.herbivore, region: .asia, profit: 3, captureRange: 3, price: 4, cost: 3))
         
-        freeAnimals[Continent.asia]!.append(Animal(name: "Golden Monkey", image: "lion", space: "green_3x3", diet: Diet.omnivore, region: .asia, profit: 3, captureRange: 4, price: 4, cost: 2))
+        freeAnimals[Continent.asia]!.append(Animal(name: "Grand Panda", image: "grand_panda", space: "grand_panda_space", diet: Diet.herbivore, region: .asia, profit: 3, captureRange: 3, price: 4, cost: 3))
         
-        freeAnimals[Continent.asia]!.append(Animal(name: "Bengal Tiger", image: "lion", space: "green_3x3", diet: Diet.carnivore, region: .asia, profit: 3, captureRange: 3, price: 5, cost: 1))
+        freeAnimals[Continent.asia]!.append(Animal(name: "Golden Monkey", image: "golden_monkey", space: "golden_monkey_space", diet: Diet.omnivore, region: .asia, profit: 3, captureRange: 4, price: 4, cost: 2))
         
-        freeAnimals[Continent.australia]!.append(Animal(name: "Kangaroo", image: "lion", space: "green_3x3", diet: Diet.herbivore, region: .australia, profit: 1, captureRange: 5, price: 2, cost: 1))
+        freeAnimals[Continent.asia]!.append(Animal(name: "Bengal Tiger", image: "bengal_tiger", space: "bengal_tiger_space", diet: Diet.carnivore, region: .asia, profit: 3, captureRange: 3, price: 5, cost: 1))
+        
+        
+        freeAnimals[Continent.australia]!.append(Animal(name: "Kangaroo", image: "kangaroo", space: "kangaroo_space", diet: Diet.herbivore, region: .australia, profit: 1, captureRange: 5, price: 2, cost: 1))
  
-        freeAnimals[Continent.australia]!.append(Animal(name: "Platypus", image: "lion", space: "green_3x3", diet: Diet.carnivore, region: .australia, profit: 3, captureRange: 3, price: 5, cost: 1))
+        freeAnimals[Continent.australia]!.append(Animal(name: "Platypus", image: "platypus", space: "platypus_space", diet: Diet.carnivore, region: .australia, profit: 3, captureRange: 3, price: 5, cost: 1))
         
-        freeAnimals[Continent.australia]!.append(Animal(name: "Koala", image: "lion", space: "green_3x3", diet: Diet.herbivore, region: .australia, profit: 3, captureRange: 3, price: 4, cost: 1))
+        freeAnimals[Continent.australia]!.append(Animal(name: "Koala", image: "koala", space: "koala_space", diet: Diet.herbivore, region: .australia, profit: 3, captureRange: 3, price: 4, cost: 1))
         
-        freeAnimals[Continent.northAmerica]!.append(Animal(name: "Alligator", image: "lion", space: "green_3x3", diet: Diet.carnivore, region: .northAmerica, profit: 2, captureRange: 4, price: 3, cost: 2))
         
-        freeAnimals[Continent.northAmerica]!.append(Animal(name: "Polar Bear", image: "lion", space: "green_3x3", diet: Diet.carnivore, region: .northAmerica, profit: 3, captureRange: 3, price: 3, cost: 3))
+        freeAnimals[Continent.northAmerica]!.append(Animal(name: "Alligator", image: "alligator", space: "alligator_space", diet: Diet.carnivore, region: .northAmerica, profit: 2, captureRange: 4, price: 3, cost: 2))
         
-        freeAnimals[Continent.northAmerica]!.append(Animal(name: "Bison", image: "lion", space: "green_3x3", diet: Diet.herbivore, region: .northAmerica, profit: 2, captureRange: 5, price: 4, cost: 2))
+        freeAnimals[Continent.northAmerica]!.append(Animal(name: "Polar Bear", image: "polar_bear", space: "polar_bear_space", diet: Diet.carnivore, region: .northAmerica, profit: 3, captureRange: 3, price: 3, cost: 3))
         
-        freeAnimals[Continent.southAmerica]!.append(Animal(name: "Toucan", image: "lion", space: "green_3x3", diet: Diet.omnivore, region: .southAmerica, profit: 2, captureRange: 5, price: 3, cost: 2))
+        freeAnimals[Continent.northAmerica]!.append(Animal(name: "Bison", image: "bison", space: "bison_space", diet: Diet.herbivore, region: .northAmerica, profit: 2, captureRange: 5, price: 4, cost: 2))
         
-        freeAnimals[Continent.southAmerica]!.append(Animal(name: "Jaguar", image: "lion", space: "green_3x3", diet: Diet.carnivore, region: .southAmerica, profit: 3, captureRange: 3, price: 4, cost: 2))
+        
+        freeAnimals[Continent.southAmerica]!.append(Animal(name: "Toucan", image: "toucan", space: "toucan_space", diet: Diet.omnivore, region: .southAmerica, profit: 2, captureRange: 5, price: 3, cost: 2))
+        
+        freeAnimals[Continent.southAmerica]!.append(Animal(name: "Jaguar", image: "jaguar", space: "jaguar_space", diet: Diet.carnivore, region: .southAmerica, profit: 3, captureRange: 3, price: 4, cost: 2))
  
-        freeAnimals[Continent.southAmerica]!.append(Animal(name: "Alpaca", image: "lion", space: "green_3x3", diet: Diet.herbivore, region: .southAmerica, profit: 1, captureRange: 5, price: 1, cost: 1))
+        freeAnimals[Continent.southAmerica]!.append(Animal(name: "Alpaca", image: "alpaca", space: "alpaca_space", diet: Diet.herbivore, region: .southAmerica, profit: 1, captureRange: 5, price: 1, cost: 1))
         
         
         
-        newsList.append(News(message: "Your zoos have to close because of protest", pastEffect: "lose one animal", presentEffect: "have no profit for this round", futureEffect: "no effect"))
-        newsList.append(News(message: "This is the second news", pastEffect: "get one animal", presentEffect: "have double profit for this round", futureEffect: "no effect"))
-        newsList.append(News(message: "This is the third news", pastEffect: "get one animal", presentEffect: "have double profit for this round", futureEffect: "no effect"))
-        newsList.append(News(message: "This is the fourth news", pastEffect: "get one animal", presentEffect: "have double profit for this round", futureEffect: "no effect"))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic, implementing a new AR and VR experience to reduce direct human and animal contact!", reflection: "Do you think that with the progress of technology, one day zoos will become animal-free grounds? Each player gives their opinions and collectively decides if it’s a good or bad thing?"))
+        newsList.append(News(message: "BBC reports: London Zoo initiated a new program to conserve native UK species, instead of foreign wildlife.", reflection: "In your opinion, if a zoo only focus on its native animals, will it reduce the number or increase the visitors, and under what circumstances should a zoo make such a move?"))
+        newsList.append(News(message: "CCTV reports: Beijing Zoo upgraded its Big Panda facility to welcome more world tourists in preparation for increased tourism during the Olympics." , reflection: "Why do countries build zoos? And why do tourists visit zoos?"))
+        newsList.append(News(message: "TV Chile reports: Santiago Zoo faced criticism after killing two lions to protect a man who had entered their enclosure in a suicide attempt." , reflection: "Thoughts: Many animal rights activists believe humans should leave animals alone and let nature be nature. How can a future zoo enhance this idea?"))
+        newsList.append(News(message: "Bangkok news reports: Thailand’s Tiger Temple, a popular tourist attraction and cultural attraction, was shut down after authorities found evidence of wildlife trafficking and abuse, including the discovery of dead tiger cubs in freezers.", reflection: "What is a future Zoo’s role in dealing with traditional heritage involving animals? Should we respect the tradition or is there any alternative future"))
+
     }
     
 }
@@ -389,9 +401,8 @@ extension View {
 struct News : Identifiable {
     let id = UUID()
     let message : String
-    let pastEffect : String
-    let presentEffect : String
-    let futureEffect : String
+    let reflection : String
+
 }
 
 enum TimePeriod: String {

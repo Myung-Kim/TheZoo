@@ -14,7 +14,8 @@ struct AnimalSelectionDetailsView: View {
     @State private var showCaptureResult = false
     @State private var captureSuccess = false
     @State private var isCapturing = false
-
+    
+    @State private var captureResult : String = ""
     
     var body: some View {
         Text("Player: \(playerName)")
@@ -73,13 +74,13 @@ struct AnimalSelectionDetailsView: View {
                     .cornerRadius(10)
                     .alert(isPresented: $showCaptureResult) {
                         if captureSuccess {
-                            return Alert(title: Text("Success!"), message: Text("You captured \(animal.name)!"), dismissButton: .default(Text("OK")) {
+                            return Alert(title: Text("Success!"), message: Text("You captured \(animal.name)! \(captureResult)"), dismissButton: .default(Text("OK")) {
                                 let capturedAnimal = animals[selectedContinent]!.remove(at: animalIndex)
                                 playerAnimals[playerName, default: []].append(capturedAnimal)
                                 dismiss()
                             })
                         } else {
-                            return Alert(title: Text("Failed"), message: Text("The \(animal.name) escaped!"), dismissButton: .default(Text("OK")) {
+                            return Alert(title: Text("Failed"), message: Text("The \(animal.name) escaped! \(captureResult)"), dismissButton: .default(Text("OK")) {
                                 dismiss()
                             })
                         }
@@ -113,6 +114,7 @@ struct AnimalSelectionDetailsView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // wait 2 seconds
             let randomValue = Int.random(in: 1...6)
             print("Capture range: \(animal.captureRange), rolled: \(randomValue)")
+            captureResult = "Capture range: 1...\(animal.captureRange), rolled: \(randomValue)"
             
             if randomValue <= animal.captureRange {
                 captureSuccess = true
@@ -121,6 +123,7 @@ struct AnimalSelectionDetailsView: View {
             }
             
             showCaptureResult = true // THEN show the alert
+            
         }
     }
 
@@ -128,7 +131,7 @@ struct AnimalSelectionDetailsView: View {
 
 #Preview {
     AnimalSelectionDetailsView(
-        animals: .constant([.africa: [Animal(name: "Lion", image: "lion", space: "green_3x3", diet: .carnivore, region: .africa, profit: 5, captureRange: 3, price: 10, cost: 8)]]),
+        animals: .constant([.africa: [Animal(name: "Lion", image: "lion", space: "lion_space", diet: .carnivore, region: .africa, profit: 5, captureRange: 3, price: 10, cost: 8)]]),
         selectedContinent: .africa,
         animalIndex: 0,
         playerAnimals: .constant([:]),
