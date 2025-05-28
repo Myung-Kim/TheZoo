@@ -14,18 +14,19 @@ struct PlayerAnimalsView: View {
     
     var body: some View {
         NavigationStack {
-            Text("Player: \(currentPlayerName)")
+//            Text("Player: \(currentPlayerName)")
             if let animalList = playerAnimals[currentPlayerName] {
                 List(animalList.indices, id: \.self) { index in
                     NavigationLink(destination: PlayerAnimalDetailsView(freeAnimals: $freeAnimals, playerAnimals: $playerAnimals, currentPlayerName: currentPlayerName, animalIndex: index)) {
                         Text(animalList[index].name)
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
                     }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                    .buttonStyle(PressableButtonStyle())
                 }
             } else {
                 Text("No animals found for \(currentPlayerName)")

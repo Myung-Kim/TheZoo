@@ -15,36 +15,67 @@ struct NewsView: View {
     
     var body: some View {
         VStack(spacing: 40) {
-            Text("📰 News")
+            
+            Spacer()
+            
+            Text("News")
                 .font(.largeTitle)
                 .bold()
+                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+            
+            Spacer()
             
             if let news = news {
                 Text(news.message)
-                    .font(.title)
-                    .multilineTextAlignment(.center)
                     .padding()
-                Text("Thoughts: \(news.reflection)")
-                    .font(.title2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .font(.title3)
                     .multilineTextAlignment(.center)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                
+                Spacer()
+                
+                Text("Impact: \(news.impact)")
                     .padding()
+                    .fixedSize(horizontal: false, vertical: true)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
 
             } else {
                 Text("No news available.")
                     .font(.title2)
             }
             
-            Button("Got it") {
+            
+            Button {
                 onDismiss()
+            } label: {
+                HStack {
+                    Image(systemName: "checkmark")
+                    Text("GOT IT")
+                }
+                .font(.title3)
+                .bold()
+                .padding(15)
+                .background(.blue)
+                .foregroundStyle(.white)
+                .cornerRadius(10)
             }
-            .font(.title2)
-            .padding()
-            .background(Color.orange)
-            .foregroundColor(.white)
-            .cornerRadius(12)
+            .buttonStyle(PressableButtonStyle())
+            
+            Spacer()
         }
         .padding()
-        .background(Color.white)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemGray6))
         .onAppear {
             if let randomIndex = newsList.indices.randomElement() {
                 news = newsList.remove(at: randomIndex)
@@ -52,12 +83,14 @@ struct NewsView: View {
             print("remaining news: ++++++++++++++++++")
             print(newsList)
         }
+        
+
     }
 }
 
 #Preview {
     NewsView(onDismiss: {}, newsList: .constant([            News(
-        message: "Example Message",
-        reflection: "Effect in the past"
+        message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!",
+        impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."
     )]))
 }

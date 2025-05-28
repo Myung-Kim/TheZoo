@@ -12,7 +12,7 @@ struct ContentView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var currentRound = 1
-    @State private var currentPlayer = 0
+//    @State private var currentPlayer = 0
     @State private var showNews = false
     @State private var showInfoSheet = false
     @State private var currentPhase = TimePeriod.past
@@ -20,219 +20,410 @@ struct ContentView: View {
     @State var playerAnimals : [String: [Animal]] = [:]
     @State private var newsList : [News] = []
     @State private var showEndGameSheet = false
+    @State private var showingConfirmation = false
 
     @Binding var numberOfPlayers : Int
     var playerNames : [String]
-    let presentRound : Int = 4
-    let futureRound : Int = 7
+    let futureRound : Int = 6
     let endRound : Int = 11
+    
     
     var body: some View {
         NavigationStack {
             VStack {
+                Spacer()
                 HStack{
-                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.africa, playerAnimals: $playerAnimals,
-                                                                    playerName: playerNames[currentPlayer], currentPhase: currentPhase)) {
-                        Text("Africa")
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
+                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.africa, playerAnimals: $playerAnimals, playerNames: playerNames, currentPhase: currentPhase)) {
+                        HStack {
+                            Image(systemName: "globe.europe.africa.fill")
+                            Text("Africa")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                        }
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .background(Color.white)
+                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                        .cornerRadius(10)
                     }
+                    .buttonStyle(PressableButtonStyle())
                     NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.europe, playerAnimals: $playerAnimals,
-                                                                    playerName: playerNames[currentPlayer], currentPhase: currentPhase)) {
-                        Text("Europe")
+                                                                    playerNames: playerNames, currentPhase: currentPhase)) {
+                        HStack {
+                            Image(systemName: "globe.europe.africa.fill")
+                            Text("Europe")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                        }
                             .fontWeight(.bold)
                             .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity, maxHeight: 60)
+                            .background(Color.white)
+                            .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
                             .cornerRadius(10)
                     }
-                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.asia, playerAnimals: $playerAnimals,
-                                                                    playerName: playerNames[currentPlayer], currentPhase: currentPhase)) {
-                        Text("Asia")
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    
-                    
+                                                                    .buttonStyle(PressableButtonStyle())
+
                 }
                 HStack {
+                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.asia, playerAnimals: $playerAnimals,
+                                                                    playerNames: playerNames, currentPhase: currentPhase)) {
+                        HStack {
+                            Image(systemName: "globe.asia.australia.fill")
+                            Text("Asia")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                        }
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .background(Color.white)
+                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                        .cornerRadius(10)
+                    }
+                                                                    .buttonStyle(PressableButtonStyle())
+                    
+                    
+                    
+                    
                     NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.australia, playerAnimals: $playerAnimals,
-                                                                    playerName: playerNames[currentPlayer], currentPhase: currentPhase)) {
-                        Text("Australia")
+                                                                    playerNames: playerNames, currentPhase: currentPhase)) {
+                        HStack {
+                            Image(systemName: "globe.asia.australia.fill")
+                            Text("Australia")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                        }
                             .fontWeight(.bold)
                             .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity, maxHeight: 60)
+                            .background(Color.white)
+                            .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
                             .cornerRadius(10)
                     }
-                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.northAmerica, playerAnimals: $playerAnimals,
-                                                                    playerName: playerNames[currentPlayer], currentPhase: currentPhase)) {
-                        Text("North America")
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.southAmerica, playerAnimals: $playerAnimals,
-                                                                    playerName: playerNames[currentPlayer], currentPhase: currentPhase)) {
-                        Text("South America")
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                }
-                
-                Spacer()
-                
-                Text("Time: \(currentPhase.description)")
-                    .font(.system(size: 30))
-                
-                Spacer()
-                
-                Text("Current Player: \(playerNames[currentPlayer])")
-                    .font(.system(size: 30))
+                                                                    .buttonStyle(PressableButtonStyle())
 
-                
-                Spacer()
-                
-                Text("Round: \(currentRound)")
-                    .font(.system(size: 30))
-                
-                Spacer()
-                
-                ScrollView {
-                    LazyHStack {
-                        ForEach(playerNames, id: \.self) { name in
-                            NavigationLink(destination: PlayerAnimalsView(freeAnimals: $freeAnimals, playerAnimals: $playerAnimals, currentPlayerName: name)) {
-                                Text(name)
-                                    .font(.title2)
-                                    .padding()
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(12)
-                            }
-                            
-                            Divider()
-                        }
-                    }
                 }
-                .frame(maxHeight: 100)
+                
+                HStack {
+                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.northAmerica, playerAnimals: $playerAnimals,
+                                                                    playerNames: playerNames, currentPhase: currentPhase)) {
+                        HStack {
+                            Image(systemName: "globe.americas.fill")
+                            Text("N. America")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                        }
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .background(Color.white)
+                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                        .cornerRadius(10)
+                    }
+                                                                    .buttonStyle(PressableButtonStyle())
+                    NavigationLink(destination: AnimalSelectionView(animals: $freeAnimals, selectedContinent: Continent.southAmerica, playerAnimals: $playerAnimals,
+                                                                    playerNames: playerNames, currentPhase: currentPhase)) {
+                        HStack {
+                            Image(systemName: "globe.americas.fill")
+                            Text("S. America")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                        }
+                        .fontWeight(.bold)
+                        .padding()
+                        .frame(maxWidth: .infinity, maxHeight: 60)
+                        .background(Color.white)
+                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                        .cornerRadius(10)
+                    }
+                                                                    .buttonStyle(PressableButtonStyle())
+                }
+                
+                Spacer()
+                
+                VStack {
+                    HStack {
+                        Text("TIME")
+                        Spacer()
+                    }
+                    .foregroundColor(Color(uiColor: .systemGray))
+                    
+                    HStack {
+                        Image(systemName: "gauge.with.needle.fill")
+                        Text(currentPhase.description)
+                            .font(.title)
+                        
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                }
+                
+
+                Spacer()
+                
+                VStack {
+                    HStack {
+                        Text("ROUND")
+                        Spacer()
+                    }
+                    .foregroundColor(Color(uiColor: .systemGray))
+                    HStack {
+                        Image(systemName: "number.circle.fill")
+                        Text("\(currentRound)")
+                            .font(.title)
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                }
+                
+                                
+                Spacer()
+                
+                VStack {
+                
+                    HStack {
+                        HStack {
+                            Text("ANIMAL COLLECTIONS")
+                                .foregroundColor(Color(uiColor: .systemGray))
+                            Spacer()
+                        }
+                    }
+                    
+                    VStack { }
+                        .frame(maxWidth: .infinity, maxHeight: 0.5)
+                        .background(Color(uiColor: .systemGray))
+                    
+                    ScrollView {
+                        LazyHStack {
+                            ForEach(playerNames, id: \.self) { name in
+                                NavigationLink(destination: PlayerAnimalsView(freeAnimals: $freeAnimals, playerAnimals: $playerAnimals, currentPlayerName: name)) {
+                                    HStack {
+                                        Image(systemName: "person.fill")
+                                        Text(name)
+                                        Image(systemName: "chevron.right")
+                                        
+                                    }
+                                }
+                                .fontWeight(.bold)
+                                .padding()
+                                .frame(maxWidth: .infinity, maxHeight: 60)
+                                .background(Color.white)
+                                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                                .cornerRadius(10)
+                                .buttonStyle(PressableButtonStyle())
+                                
+                                Divider()
+                            }
+                        }
+                    }
+                    .frame(maxHeight: 55)
+                    
+                    VStack { }
+                        .frame(maxWidth: .infinity, maxHeight: 0.5)
+                        .background(Color(uiColor: .systemGray))
+                }
                 
                 
                 Spacer()
                 
-                Button {
-                    currentPlayer += 1
-                    
-                    // check if going to next round
-                    if currentPlayer == numberOfPlayers {
-                        // show Information sheet at the end of each round
-                        showInfoSheet = true
-                        
-                        currentRound += 1
-                        currentPlayer = 0
-                                                
-                        // show news at each 3 round
-                        if currentRound % 3 == 0 {
-                            showNews = true
+                HStack {
+                    Button {
+                        if currentRound > 1 {
+                            currentRound -= 1
+                            checkPhase()
                         }
                         
-                        
-                    }
-                    
-                } label: {
-                    Text("Next")
-                        .font(.title)
+                    } label: {
+                        HStack {
+//                            Image(systemName: "arrowshape.left.fill")
+                            Text("PREV ROUND")
+                        }
+                        .font(.title3)
+                        .bold()
                         .padding(15)
                         .background(.pink)
                         .foregroundStyle(.white)
                         .cornerRadius(10)
-                }
-                .sheet(isPresented: $showInfoSheet, onDismiss: { showInfoSheet = false
-                    checkPhase()}) {
-                        VStack(spacing: 20) {
-                            if currentPhase == .past || currentPhase == .present {
-                                Text("Profits!")
-                                    .font(.largeTitle)
-                                    .bold()
+                    }
+                    .buttonStyle(PressableButtonStyle())
+                    
+                    Button {
+                        showInfoSheet = true
+                        
+                        currentRound += 1
+                        
+                        // show news at each 3 round
+                        if currentRound % 2 == 1 && currentRound >= 3 && currentRound < endRound {
+                            showNews = true
+                        }
+                        
+                    } label: {
+                        HStack {
+//                            Image(systemName: "arrowshape.right.fill")
+                            Text("NEXT ROUND")
+                        }
+                        .font(.title3)
+                        .bold()
+                        .padding(15)
+                        .background(.green)
+                        .foregroundStyle(.white)
+                        .cornerRadius(10)
+                    }
+                    .buttonStyle(PressableButtonStyle())
+                    .sheet(isPresented: $showInfoSheet, onDismiss: { showInfoSheet = false
+                        checkPhase()}) {
+                            VStack(spacing: 20) {
+                                Spacer()
                                 
-                                ForEach(Array(playerAnimals.keys), id: \.self) { name in
-                                    if let animals = playerAnimals[name] {
-                                        Text("Player: \(name)")
-                                            .font(.title)
-                                        Text("Profit: \(calculateProfit(animals: animals))")
-                                            .font(.title)
+                                if currentPhase == .past {
+
+                                    Text("Profits!")
+                                        .font(.largeTitle)
+                                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                                        .bold()
+                                    
+                                    Spacer()
+                                    
+                                    ForEach(Array(playerAnimals.keys), id: \.self) { name in
+                                        if let animals = playerAnimals[name] {
+                                            
+                                            HStack {
+                                                Text("Player: \(name)")
+                                                    .font(.title2)
+                                                Spacer()
+                                            }
+                                            .bold()
+                                            .foregroundColor(Color(uiColor: .systemGray))
+                                            
+                                            Text("Profit: \(calculateProfit(animals: animals))")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+                                                .padding()
+                                                .frame(maxWidth: .infinity)
+                                                .background(Color.white)
+                                                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                                                .cornerRadius(10)
+                                        }
+                                    }
+                                } else {
+                                    Text("Costs!")
+                                        .font(.largeTitle)
+                                        .bold()
+                                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+
+                                    Spacer()
+                                    
+                                    ForEach(Array(playerAnimals.keys), id: \.self) { name in
+                                        if let animals = playerAnimals[name] {
+                                            
+                                                HStack {
+                                                    Text("Player: \(name)")
+                                                        .font(.title2)
+                                                    Spacer()
+                                                }
+                                                .bold()
+                                                .foregroundColor(Color(uiColor: .systemGray))
+                                                
+                                                Text("Cost: \(calculateCost(animals: animals))")
+                                                    .font(.title2)
+                                                    .fontWeight(.bold)
+                                                    .padding()
+                                                    .frame(maxWidth: .infinity)
+                                                    .background(Color.white)
+                                                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                                                    .cornerRadius(10)
+                                            
+                                        }
                                     }
                                 }
-                            } else {
-                                Text("Costs!")
-                                    .font(.largeTitle)
-                                    .bold()
                                 
-                                ForEach(Array(playerAnimals.keys), id: \.self) { name in
-                                    if let animals = playerAnimals[name] {
-                                        Text("Player: \(name)")
-                                            .font(.title)
-                                        Text("Cost: \(calculateCost(animals: animals))")
-                                            .font(.title)
+                                Spacer()
+                                
+                                Button {
+                                    showInfoSheet = false
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "checkmark")
+                                        Text("GOT IT")
                                     }
+                                    .font(.title3)
+                                    .bold()
+                                    .padding(15)
+                                    .background(.blue)
+                                    .foregroundStyle(.white)
+                                    .cornerRadius(10)
                                 }
+                                .buttonStyle(PressableButtonStyle())
+                                
                             }
-                            
-                            Button("Got it") {
-                                showInfoSheet = false
-                            }
-                            .font(.title2)
                             .padding()
-                            .background(Color.orange)
-                            .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .background(Color(uiColor: .systemGray6))
+                            
+                            
+                        }
+                        
+                    .fullScreenCover(isPresented: $showNews) {
+                        NewsView (onDismiss: { showNews = false },
+                                  newsList: $newsList)
+                    }
+                    .sheet(isPresented: $showEndGameSheet) {
+                        VStack(spacing: 20) {
+                            Text("Game Over!")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+
+                            
+                            Text("Thanks for playing 🦁🐼🐘")
+                                .font(.title2)
+                                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+
+                            
+                            Button {
+                                // Dismiss or navigate back to root
+                                dismiss()                            } label: {
+                                    HStack {
+                                        Image(systemName: "arrowshape.turn.up.backward.fill")
+                                        Text("MAIN MENU")
+                                    }
+                                    .font(.title3)
+                                    .bold()
+                                    .padding(15)
+                                    .background(.blue)
+                                    .foregroundStyle(.white)
+                                    .cornerRadius(10)
+                                }
+                                .buttonStyle(PressableButtonStyle())
+
                         }
                         .padding()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(uiColor: .systemGray6))
                     }
-                .fullScreenCover(isPresented: $showNews) {
-                    NewsView (onDismiss: { showNews = false },
-                              newsList: $newsList)
-                }
-                .sheet(isPresented: $showEndGameSheet) {
-                    VStack(spacing: 20) {
-                        Text("Game Over!")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                        
-                        Text("Thanks for playing 🦁🐼🐘")
-                            .font(.title2)
-                        
-                        Button("Return to Main Menu") {
-                            // Dismiss or navigate back to root
-                            dismiss()
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                    }
-                    .padding()
+                    
                 }
                 
+
+                
             }
-            
-            
+            .background(Color(uiColor: .systemGray6))
             
         }
         .onFirstAppear {
@@ -251,7 +442,7 @@ struct ContentView: View {
             //            print("page loaded")
         }
         .navigationBarBackButtonHidden(true)
-        .navigationTitle("Detail Title")
+        .navigationTitle("Back")
         // 1
         .toolbar {
             
@@ -260,16 +451,21 @@ struct ContentView: View {
                 
                 Button {
                     // 3
-                    print("Custom Action")
-                    dismiss()
+//                    dismiss()
+                    showingConfirmation = true
                     
                 } label: {
                     // 4
                     HStack {
-                        
                         Image(systemName: "chevron.backward")
-                        Text("Custom Back")
+                        Text("Exit")
                     }
+                }
+                .confirmationDialog("End the game?", isPresented: $showingConfirmation) {
+                    Button("Confirm") { dismiss() }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text("End the game?")
                 }
             }
         }
@@ -278,10 +474,10 @@ struct ContentView: View {
     func checkPhase() {
         if currentRound >= endRound {
             showEndGameSheet = true
-        }else if currentRound >= futureRound {
+        }else if currentRound >= futureRound && currentRound < endRound {
             currentPhase = TimePeriod.future
-        }else if currentRound >= presentRound {
-            currentPhase = TimePeriod.present
+        }else if currentRound < futureRound {
+            currentPhase = TimePeriod.past
         }
     }
     
@@ -359,11 +555,27 @@ struct ContentView: View {
         
         
         
-        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic, implementing a new AR and VR experience to reduce direct human and animal contact!", reflection: "Do you think that with the progress of technology, one day zoos will become animal-free grounds? Each player gives their opinions and collectively decides if it’s a good or bad thing?"))
-        newsList.append(News(message: "BBC reports: London Zoo initiated a new program to conserve native UK species, instead of foreign wildlife.", reflection: "In your opinion, if a zoo only focus on its native animals, will it reduce the number or increase the visitors, and under what circumstances should a zoo make such a move?"))
-        newsList.append(News(message: "CCTV reports: Beijing Zoo upgraded its Big Panda facility to welcome more world tourists in preparation for increased tourism during the Olympics." , reflection: "Why do countries build zoos? And why do tourists visit zoos?"))
-        newsList.append(News(message: "TV Chile reports: Santiago Zoo faced criticism after killing two lions to protect a man who had entered their enclosure in a suicide attempt." , reflection: "Thoughts: Many animal rights activists believe humans should leave animals alone and let nature be nature. How can a future zoo enhance this idea?"))
-        newsList.append(News(message: "Bangkok news reports: Thailand’s Tiger Temple, a popular tourist attraction and cultural attraction, was shut down after authorities found evidence of wildlife trafficking and abuse, including the discovery of dead tiger cubs in freezers.", reflection: "What is a future Zoo’s role in dealing with traditional heritage involving animals? Should we respect the tradition or is there any alternative future"))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+        newsList.append(News(message: "NHK reports: Tokyo Zoo reopened its doors after a prolonged closure due to the pandemic. During the closure time, it implemented a new AR and VR experience to reduce direct human and animal contact!", impact: "Future Zoo may not need to acquire animals due to the advancements in technology. By collaborating with game development companies and animal exporters, zoos can fulfil their moral vision while maintaining their educational function. The player who is closest to Japan can return one animal from their zoo."))
+        newsList.append(News(message: "The BBC reports that London Zoo has initiated a new program to save native UK species. London Zoo is gradually phasing out foreign wildlife and focusing on implementing programs that have a positive impact on local species.", impact: "Future Zoo may focus more on the local animals rather than foreign wildlife. It marks a step forward in decolonising and decommodifying animals. The player who is closest to the United Kingdom gains animals from Europe at no cost."))
+
 
     }
     
@@ -401,17 +613,16 @@ extension View {
 struct News : Identifiable {
     let id = UUID()
     let message : String
-    let reflection : String
+    let impact : String
 
 }
 
 enum TimePeriod: String {
-    case past, present, future
+    case past, future
     
     var description: String {
         switch self {
-        case .past: return "Past"
-        case .present: return "Present"
+        case .past: return "Colonial Time"
         case .future: return "Future"
         }
     }

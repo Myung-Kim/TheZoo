@@ -40,18 +40,24 @@ struct LobbyView: View {
                 }
                 .padding(.top)
                 
+                Spacer()
+                
                 NavigationLink(destination: ContentView(numberOfPlayers: $selectedNumber, playerNames: trimmedPlayerNames)) {
-                    Text("Start")
-                        .fontWeight(.bold)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    HStack {
+                        Image(systemName: "play.fill")
+                        
+                        Text("Start")
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
+                .buttonStyle(PressableButtonStyle())
                 .padding(.top, 20)
                 
-                Spacer()
             }
             .padding()
         }

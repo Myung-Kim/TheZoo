@@ -7,9 +7,12 @@ struct AnimalSelectionDetailsView: View {
     let selectedContinent: Continent
     let animalIndex: Int
     @Binding var playerAnimals: [String: [Animal]]
-    let playerName: String
+    let playerNames: [String]
     let currentPhase: TimePeriod
     
+    @State var playerName: String = ""
+    @State private var showChoosePlayer1 = false
+    @State private var showChoosePlayer2 = false
     @State private var showConfirmation = false
     @State private var showCaptureResult = false
     @State private var captureSuccess = false
@@ -18,8 +21,6 @@ struct AnimalSelectionDetailsView: View {
     @State private var captureResult : String = ""
     
     var body: some View {
-        Text("Player: \(playerName)")
-            .font(.title)
         if animalIndex < (animals[selectedContinent]?.count ?? 0),
            let animal = animals[selectedContinent]?[animalIndex] {
             
@@ -27,72 +28,293 @@ struct AnimalSelectionDetailsView: View {
                 Image(animal.image) // Name of the image in your assets catalog
                             .resizable() // Makes the image resizable
                             .scaledToFit() // Maintains the aspect ratio
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .frame(maxWidth: .infinity, maxHeight: 200)
                 Image(animal.space) // Name of the image in your assets catalog
                             .resizable() // Makes the image resizable
                             .scaledToFit() // Maintains the aspect ratio
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                
-                Text(animal.name)
-                    .font(.title)
-                
-                Text("Region: \(animal.region.description)")
-                Text("Diet: \(animal.diet.description)")
-                Text("Profit: \(animal.profit)")
-                Text("Capture Range: 1...\(animal.captureRange)")
-                Text("Cost: \(animal.cost)")
-                
-                
-                if currentPhase == .present {
-                    // Buy Button
-                    Button("Buy") {
-                        showConfirmation = true
+                            .frame(maxWidth: 180, maxHeight: 150)
+
+
+            }
+            .padding()
+            
+            VStack {
+                Spacer()
+                HStack {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50)
+                        Text("NAME")
                     }
-                    .font(.title)
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .frame(maxWidth: 150)
+                    
+                    Spacer()
+                        .frame(width: 30)
+                    
+                    HStack {
+                        Spacer()
+                            .frame(width: 10)
+                        Text("\(animal.name)")
+                    }
+                    .fontWeight(.bold)
                     .padding()
-                    .background(Color.green)
-                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, maxHeight: 40)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
                     .cornerRadius(10)
+                }
+                
+                HStack {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50)
+                        Text("REGION")
+                    }
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .frame(maxWidth: 150)
+                    
+                    Spacer()
+                        .frame(width: 30)
+
+                    HStack {
+                        Spacer()
+                            .frame(width: 10)
+                        Text("\(animal.region.description)")
+                        
+
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 40)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                       
+                }
+                
+                HStack {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50)
+                        Text("DIET")
+                    }
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .frame(maxWidth: 150)
+                    
+                    Spacer()
+                        .frame(width: 30)
+
+                    HStack {
+                        Spacer()
+                            .frame(width: 10)
+                        Text("\(animal.diet.description)")
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 40)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                       
+                    
+                }
+                
+                HStack {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50)
+                        Text("PRICE")
+                    }
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .frame(maxWidth: 150)
+                    
+                    Spacer()
+                        .frame(width: 30)
+
+                    HStack {
+                        Spacer()
+                            .frame(width: 10)
+                        Text("\(animal.price)")
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 40)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                       
+                }
+                
+                HStack {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50)
+                        Text("PROFIT")
+                    }
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .frame(maxWidth: 150)
+                    
+                    Spacer()
+                        .frame(width: 30)
+
+                    HStack {
+                        Spacer()
+                            .frame(width: 10)
+                        Text("\(animal.profit)")
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 40)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                       
+                }
+                
+//                HStack {
+//                    HStack {
+//                        Spacer()
+//                            .frame(width: 50)
+//                        Text("CAPTURE RANGE")
+//                    }
+//                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+//                    .frame(maxWidth: 150)
+//                    
+//                    Spacer()
+//                        .frame(width: 30)
+//
+//                    HStack {
+//                        Spacer()
+//                            .frame(width: 10)
+//                        Text("\(animal.captureRange)")
+//                    }
+//                    .fontWeight(.bold)
+//                    .padding()
+//                    .frame(maxWidth: .infinity, maxHeight: 40)
+//                    .background(Color.white)
+//                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+//                    .cornerRadius(10)
+//                }
+                
+                HStack {
+                    HStack {
+                        Spacer()
+                            .frame(width: 50)
+                        Text("COST")
+                    }
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .frame(maxWidth: 150)
+                    
+                    Spacer()
+                        .frame(width: 30)
+
+                    HStack {
+                        Spacer()
+                            .frame(width: 10)
+                        Text("\(animal.cost)")
+                    }
+                    .fontWeight(.bold)
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: 40)
+                    .background(Color.white)
+                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .cornerRadius(10)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    
+                    Button {
+                        showChoosePlayer1 = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "eurosign")
+                            Text("BUY")
+                        }
+                        .font(.title3)
+                        .bold()
+                        .padding(15)
+                        .background(.green)
+                        .foregroundStyle(.white)
+                        .cornerRadius(10)
+                    }
+                    .buttonStyle(PressableButtonStyle())
+                    .confirmationDialog("Choose player", isPresented: $showChoosePlayer1) {
+                        ForEach(playerNames.indices) { i in
+                            Button(playerNames[i]) {
+                                playerName = playerNames[i]
+                                showConfirmation = true
+                            }
+                        }
+                        Button("Cancel", role: .cancel) { }
+                    } message: {
+                        Text("Choose player")
+                    }
                     .alert("Confirm Purchase", isPresented: $showConfirmation) {
                         Button("Confirm", role: .none) {
                             buyAnimal()
                         }
                         Button("Cancel", role: .cancel) { }
                     } message: {
-                        Text("Do you want to buy \(animal.name) for \(animal.cost) coins?")
+                        Text("Do you want to buy \(animal.name) for \(animal.price) coins?")
                     }
-                } else if currentPhase == .past {
-                    // Capture Button
-                    Button("Capture") {
-                        isCapturing = true
-                        attemptCapture(for: animal)
-                    }
-                    .font(.title)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .alert(isPresented: $showCaptureResult) {
-                        if captureSuccess {
-                            return Alert(title: Text("Success!"), message: Text("You captured \(animal.name)! \(captureResult)"), dismissButton: .default(Text("OK")) {
-                                let capturedAnimal = animals[selectedContinent]!.remove(at: animalIndex)
-                                playerAnimals[playerName, default: []].append(capturedAnimal)
-                                dismiss()
-                            })
-                        } else {
-                            return Alert(title: Text("Failed"), message: Text("The \(animal.name) escaped! \(captureResult)"), dismissButton: .default(Text("OK")) {
-                                dismiss()
-                            })
-                        }
-                    }
-                    .disabled(isCapturing)
-                    if isCapturing {
-                        ProgressView("Capturing...")
-                            .padding()
-                    }
+
+                    
+                    
+//                    Button {
+//                        showChoosePlayer2 = true
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "hand.pinch.fill")
+//                            Text("CAPTURE")
+//                        }
+//                        .font(.title3)
+//                        .bold()
+//                        .padding(15)
+//                        .background(.blue)
+//                        .foregroundStyle(.white)
+//                        .cornerRadius(10)
+//                    }
+//                    .buttonStyle(PressableButtonStyle())
+//                    .confirmationDialog("Choose player", isPresented: $showChoosePlayer2) {
+//                        ForEach(playerNames.indices) { i in
+//                            Button(playerNames[i]) {
+//                                playerName = playerNames[i]
+//                                isCapturing = true
+//                                attemptCapture(for: animal)
+//                            }
+//                        }
+//                        Button("Cancel", role: .cancel) { }
+//                    } message: {
+//                        Text("Choose player")
+//                    }
+//                    .alert(isPresented: $showCaptureResult) {
+//                        if captureSuccess {
+//                            return Alert(title: Text("Success!"), message: Text("You captured \(animal.name)! \(captureResult)"), dismissButton: .default(Text("OK")) {
+//                                let capturedAnimal = animals[selectedContinent]!.remove(at: animalIndex)
+//                                playerAnimals[playerName, default: []].append(capturedAnimal)
+//                                dismiss()
+//                            })
+//                        } else {
+//                            return Alert(title: Text("Failed"), message: Text("The \(animal.name) escaped! \(captureResult)"), dismissButton: .default(Text("OK")) {
+//                                dismiss()
+//                            })
+//                        }
+//                    }
+//                    .disabled(isCapturing)
+//                    if isCapturing {
+//                        ProgressView("Capturing...")
+//                            .padding()
+//                    }
+                    
                 }
             }
             .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(uiColor: .systemGray6))
+            
         }
         else {
             Text("No animals found for \(selectedContinent)")
@@ -135,7 +357,8 @@ struct AnimalSelectionDetailsView: View {
         selectedContinent: .africa,
         animalIndex: 0,
         playerAnimals: .constant([:]),
-        playerName: "Anon",
-        currentPhase: TimePeriod.past
+        playerNames: ["Anon", "Aob"],
+        currentPhase: TimePeriod.past,
+        playerName: "Anon"
     )
 }
